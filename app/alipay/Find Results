@@ -1,0 +1,6725 @@
+Searching 613 files for "encrypt("
+
+D:\www\blog\app\alipay\aop\AopClient.php:
+  351  		$apiParams = $request->getApiParas();
+  352  
+  353: 		if (method_exists($request,"getNeedEncrypt") &&$request->getNeedEncrypt()){
+  354  
+  355  			$sysParams["encrypt_type"] = $this->encryptType;
+  ...
+  371  
+  372  			// 执行加密
+  373: 			$enCryptContent = ali_encrypt($apiParams['biz_content'], $this->encryptKey);
+  374  			$apiParams['biz_content'] = $enCryptContent;
+  375  
+  ...
+  469  		$apiParams = $request->getApiParas();
+  470  
+  471: 			if (method_exists($request,"getNeedEncrypt") &&$request->getNeedEncrypt()){
+  472  
+  473  			$sysParams["encrypt_type"] = $this->encryptType;
+  ...
+  489  
+  490  			// 执行加密
+  491: 			$enCryptContent = ali_encrypt($apiParams['biz_content'], $this->encryptKey);
+  492  			$apiParams['biz_content'] = $enCryptContent;
+  493  
+  ...
+  555  
+  556  		// 解密
+  557: 		if (method_exists($request,"getNeedEncrypt") &&$request->getNeedEncrypt()){
+  558  
+  559  			if ("json" == $this->format) {
+  ...
+  717  		// 加密，并签名
+  718  		if ($isEncrypt && $isSign) {
+  719: 			$encrypted = $this->rsaEncrypt($bizContent, $rsaPublicKeyPem, $charset);
+  720  			$sign = $this->sign($encrypted, $signType);
+  721  			$response = "<?xml version=\"1.0\" encoding=\"$charset\"?><alipay><response>$encrypted</response><encryption_type>RSA</encryption_type><sign>$sign</sign><sign_type>$signType</sign_type></alipay>";
+  ...
+  724  		// 加密，不签名
+  725  		if ($isEncrypt && (!$isSign)) {
+  726: 			$encrypted = $this->rsaEncrypt($bizContent, $rsaPublicKeyPem, $charset);
+  727  			$response = "<?xml version=\"1.0\" encoding=\"$charset\"?><alipay><response>$encrypted</response><encryption_type>$signType</encryption_type></alipay>";
+  728  			return $response;
+  ...
+  743  	 *  公钥是否是读取字符串还是读取文件，是根据初始化传入的值判断的。
+  744  	 **/
+  745: 	public function rsaEncrypt($data, $rsaPublicKeyPem, $charset) {
+  746  		if($this->checkEmpty($this->alipayPublicKey)){
+  747  			//读取字符串
+  ...
+  762  		$encodes  = array();
+  763  		foreach ($blocks as $n => $block) {
+  764: 			if (!openssl_public_encrypt($block, $chrtext , $res)) {
+  765  				echo "<br/>" . openssl_error_string() . "<br/>";
+  766  			}
+
+D:\www\blog\app\alipay\aop\AopEncrypt.php:
+   13   * @return string
+   14   */
+   15:  function ali_encrypt($str,$screct_key){
+   16  	//AES, 128 模式加密数据 CBC
+   17  	$screct_key = base64_decode($screct_key);
+   ..
+   19  	$str = addPKCS7Padding($str);
+   20  	$iv = mcrypt_create_iv(mcrypt_get_iv_size(MCRYPT_RIJNDAEL_128,MCRYPT_MODE_CBC),1);
+   21: 	$encrypt_str =  mcrypt_encrypt(MCRYPT_RIJNDAEL_128, $screct_key, $str, MCRYPT_MODE_CBC);
+   22  	return base64_encode($encrypt_str);
+   23  }
+
+D:\www\blog\app\alipay\aop\request\AlipayAccountExrateAdviceAcceptRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayAccountExrateAllclientrateQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayAccountExrateRatequeryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayAcquireCancelRequest.php:
+  157  	}
+  158  
+  159:   public function setNeedEncrypt($needEncrypt)
+  160    {
+  161  
+  ...
+  164    }
+  165  
+  166:   public function getNeedEncrypt()
+  167    {
+  168      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayAcquireCloseRequest.php:
+  138  	}
+  139  
+  140:   public function setNeedEncrypt($needEncrypt)
+  141    {
+  142  
+  ...
+  145    }
+  146  
+  147:   public function getNeedEncrypt()
+  148    {
+  149      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayAcquireCreateandpayRequest.php:
+  536  	}
+  537  
+  538:   public function setNeedEncrypt($needEncrypt)
+  539    {
+  540  
+  ...
+  543    }
+  544  
+  545:   public function getNeedEncrypt()
+  546    {
+  547      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayAcquirePrecreateRequest.php:
+  388  	}
+  389  
+  390:   public function setNeedEncrypt($needEncrypt)
+  391    {
+  392  
+  ...
+  395    }
+  396  
+  397:   public function getNeedEncrypt()
+  398    {
+  399      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayAcquireQueryRequest.php:
+  122  	}
+  123  
+  124:   public function setNeedEncrypt($needEncrypt)
+  125    {
+  126  
+  ...
+  129    }
+  130  
+  131:   public function getNeedEncrypt()
+  132    {
+  133      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayAcquireRefundRequest.php:
+  222  	}
+  223  
+  224:   public function setNeedEncrypt($needEncrypt)
+  225    {
+  226  
+  ...
+  229    }
+  230  
+  231:   public function getNeedEncrypt()
+  232    {
+  233      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayAppTokenGetRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayAssetAccountBindRequest.php:
+  156  	}
+  157  
+  158:   public function setNeedEncrypt($needEncrypt)
+  159    {
+  160  
+  ...
+  163    }
+  164  
+  165:   public function getNeedEncrypt()
+  166    {
+  167      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayAssetAccountGetRequest.php:
+  121  	}
+  122  
+  123:   public function setNeedEncrypt($needEncrypt)
+  124    {
+  125  
+  ...
+  128    }
+  129  
+  130:   public function getNeedEncrypt()
+  131    {
+  132      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayAssetAccountUnbindRequest.php:
+  120  	}
+  121  
+  122:   public function setNeedEncrypt($needEncrypt)
+  123    {
+  124  
+  ...
+  127    }
+  128  
+  129:   public function getNeedEncrypt()
+  130    {
+  131      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayAssetPointBalanceQueryRequest.php:
+   89  	}
+   90  
+   91:   public function setNeedEncrypt($needEncrypt)
+   92    {
+   93  
+   ..
+   96    }
+   97  
+   98:   public function getNeedEncrypt()
+   99    {
+  100      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayAssetPointBudgetQueryRequest.php:
+   89  	}
+   90  
+   91:   public function setNeedEncrypt($needEncrypt)
+   92    {
+   93  
+   ..
+   96    }
+   97  
+   98:   public function getNeedEncrypt()
+   99    {
+  100      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayAssetPointOrderCreateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayAssetPointOrderQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayBossCsChannelQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayBossProdArrangementOfflineQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayCommerceCityfacilitatorCityQueryRequest.php:
+   89  	}
+   90  
+   91:   public function setNeedEncrypt($needEncrypt)
+   92    {
+   93  
+   ..
+   96    }
+   97  
+   98:   public function getNeedEncrypt()
+   99    {
+  100      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayCommerceCityfacilitatorDepositCancelRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayCommerceCityfacilitatorDepositConfirmRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayCommerceCityfacilitatorDepositQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayCommerceCityfacilitatorFunctionQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayCommerceCityfacilitatorScriptQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayCommerceCityfacilitatorStationQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayCommerceCityfacilitatorVoucherBatchqueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayCommerceCityfacilitatorVoucherCancelRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayCommerceCityfacilitatorVoucherConfirmRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayCommerceCityfacilitatorVoucherGenerateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayCommerceCityfacilitatorVoucherQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayCommerceCityfacilitatorVoucherRefundRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayCommerceCityfacilitatorVoucherUploadRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayCommerceEducateStudentinfoShareRequest.php:
+   89  	}
+   90  
+   91:   public function setNeedEncrypt($needEncrypt)
+   92    {
+   93  
+   ..
+   96    }
+   97  
+   98:   public function getNeedEncrypt()
+   99    {
+  100      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayCommerceMedicalInstcardBindRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayCommerceTransportOfflinepayKeyQueryRequest.php:
+   89  	}
+   90  
+   91:   public function setNeedEncrypt($needEncrypt)
+   92    {
+   93  
+   ..
+   96    }
+   97  
+   98:   public function getNeedEncrypt()
+   99    {
+  100      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayCommerceTransportOfflinepayRecordVerifyRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayCommerceTransportOfflinepayUserblacklistQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayDaoweiOrderCancelRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayDaoweiOrderConfirmRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayDaoweiOrderModifyRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayDaoweiOrderQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayDaoweiOrderRefundRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayDaoweiOrderRefuseRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayDaoweiOrderSpModifyRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayDaoweiOrderTransferRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayDaoweiServiceModifyRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayDaoweiServicePriceModifyRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayDaoweiSpModifyRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayDaoweiSpScheduleModifyRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayDataBillDownloadurlGetRequest.php:
+  120  	}
+  121  
+  122:   public function setNeedEncrypt($needEncrypt)
+  123    {
+  124  
+  ...
+  127    }
+  128  
+  129:   public function getNeedEncrypt()
+  130    {
+  131      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayDataDataexchangeSfasdfRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayDataDataserviceBillDownloadurlQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayDataDataserviceChinaremodelQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayDataDataserviceCodeRecoRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayDataDataserviceSdfsdfRequest.php:
+   89  	}
+   90  
+   91:   public function setNeedEncrypt($needEncrypt)
+   92    {
+   93  
+   ..
+   96    }
+   97  
+   98:   public function getNeedEncrypt()
+   99    {
+  100      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayDataDataserviceUserlevelZrankGetRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEbppBillAddRequest.php:
+  312  	}
+  313  
+  314:   public function setNeedEncrypt($needEncrypt)
+  315    {
+  316  
+  ...
+  319    }
+  320  
+  321:   public function getNeedEncrypt()
+  322    {
+  323      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEbppBillGetRequest.php:
+  120  	}
+  121  
+  122:   public function setNeedEncrypt($needEncrypt)
+  123    {
+  124  
+  ...
+  127    }
+  128  
+  129:   public function getNeedEncrypt()
+  130    {
+  131      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEbppBillSearchRequest.php:
+  201  	}
+  202  
+  203:   public function setNeedEncrypt($needEncrypt)
+  204    {
+  205  
+  ...
+  208    }
+  209  
+  210:   public function getNeedEncrypt()
+  211    {
+  212      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEbppMerchantConfigGetRequest.php:
+   89  	}
+   90  
+   91:   public function setNeedEncrypt($needEncrypt)
+   92    {
+   93  
+   ..
+   96    }
+   97  
+   98:   public function getNeedEncrypt()
+   99    {
+  100      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEbppPdeductBillPayStatusRequest.php:
+  120  	}
+  121  
+  122:   public function setNeedEncrypt($needEncrypt)
+  123    {
+  124  
+  ...
+  127    }
+  128  
+  129:   public function getNeedEncrypt()
+  130    {
+  131      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEbppPdeductPayRequest.php:
+  283  	}
+  284  
+  285:   public function setNeedEncrypt($needEncrypt)
+  286    {
+  287  
+  ...
+  290    }
+  291  
+  292:   public function getNeedEncrypt()
+  293    {
+  294      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEbppPdeductSignAddRequest.php:
+  358  	}
+  359  
+  360:   public function setNeedEncrypt($needEncrypt)
+  361    {
+  362  
+  ...
+  365    }
+  366  
+  367:   public function getNeedEncrypt()
+  368    {
+  369      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEbppPdeductSignCancelRequest.php:
+  168  	}
+  169  
+  170:   public function setNeedEncrypt($needEncrypt)
+  171    {
+  172  
+  ...
+  175    }
+  176  
+  177:   public function getNeedEncrypt()
+  178    {
+  179      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEbppPdeductSignQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEbppPdeductSignValidateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEcapiprodCreditGetRequest.php:
+  168  	}
+  169  
+  170:   public function setNeedEncrypt($needEncrypt)
+  171    {
+  172  
+  ...
+  175    }
+  176  
+  177:   public function getNeedEncrypt()
+  178    {
+  179      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEcapiprodDataPutRequest.php:
+  232  	}
+  233  
+  234:   public function setNeedEncrypt($needEncrypt)
+  235    {
+  236  
+  ...
+  239    }
+  240  
+  241:   public function getNeedEncrypt()
+  242    {
+  243      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEcapiprodDrawndnContractGetRequest.php:
+  168  	}
+  169  
+  170:   public function setNeedEncrypt($needEncrypt)
+  171    {
+  172  
+  ...
+  175    }
+  176  
+  177:   public function getNeedEncrypt()
+  178    {
+  179      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEcapiprodDrawndnDrawndnlistQueryRequest.php:
+  168  	}
+  169  
+  170:   public function setNeedEncrypt($needEncrypt)
+  171    {
+  172  
+  ...
+  175    }
+  176  
+  177:   public function getNeedEncrypt()
+  178    {
+  179      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEcapiprodDrawndnFeerecordQueryRequest.php:
+  200  	}
+  201  
+  202:   public function setNeedEncrypt($needEncrypt)
+  203    {
+  204  
+  ...
+  207    }
+  208  
+  209:   public function getNeedEncrypt()
+  210    {
+  211      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEcapiprodDrawndnLendingrecordQueryRequest.php:
+  200  	}
+  201  
+  202:   public function setNeedEncrypt($needEncrypt)
+  203    {
+  204  
+  ...
+  207    }
+  208  
+  209:   public function getNeedEncrypt()
+  210    {
+  211      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEcapiprodDrawndnPaymentscheduleGetRequest.php:
+  168  	}
+  169  
+  170:   public function setNeedEncrypt($needEncrypt)
+  171    {
+  172  
+  ...
+  175    }
+  176  
+  177:   public function getNeedEncrypt()
+  178    {
+  179      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEcapiprodDrawndnRepaymentrecordQueryRequest.php:
+  200  	}
+  201  
+  202:   public function setNeedEncrypt($needEncrypt)
+  203    {
+  204  
+  ...
+  207    }
+  208  
+  209:   public function getNeedEncrypt()
+  210    {
+  211      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEcardEduPublicBindRequest.php:
+  184  	}
+  185  
+  186:   public function setNeedEncrypt($needEncrypt)
+  187    {
+  188  
+  ...
+  191    }
+  192  
+  193:   public function getNeedEncrypt()
+  194    {
+  195      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEcoCplifeBasicserviceInitializeRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEcoCplifeBasicserviceModifyRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEcoCplifeBillBatchqueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEcoCplifeBillBatchUploadRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEcoCplifeBillDeleteRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEcoCplifeBillModifyRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEcoCplifeBillSyncRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEcoCplifeCommunityBatchqueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEcoCplifeCommunityCreateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEcoCplifeCommunityDetailsQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEcoCplifeCommunityModifyRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEcoCplifeNoticeDeleteRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEcoCplifeNoticePublishRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEcoCplifeRepairStatusUpdateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEcoCplifeResidentinfoDeleteRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEcoCplifeResidentinfoUploadRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEcoCplifeRoominfoDeleteRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEcoCplifeRoominfoQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEcoCplifeRoominfoUploadRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEcoCplifeRooominfoQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEcoCplifeUseridentityStatusUpdateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEcoMycarCarlibInfoPushRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEcoMycarCarmodelModifyRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEcoMycarDataExternalQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEcoMycarDataExternalSendRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEcoMycarDataserviceViolationinfoShareRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEcoMycarMaintainDataUpdateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEcoMycarMaintainOrderCreateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEcoMycarMaintainOrderstatusUpdateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEcoMycarOrderStatusQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEcoMycarParkingCardbarcodeCreateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEcoMycarParkingEnterinfoSyncRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEcoMycarParkingExitinfoSyncRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEcoMycarParkingLotbarcodeCreateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEcoMycarParkingOrderstatusQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEcoMycarParkingOrderSyncRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEcoMycarParkingOrderUpdateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEcoMycarParkingParkinglotinfoCreateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEcoMycarParkingParkinglotinfoUpdateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEcoMycarParkingVehicleQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEcoMycarPromoTicketPushRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEcoMycarPromoTicketSyncRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEcoMycarPromoVoucherVerifyRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEcoMycarTradeRefundRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEcoMycarViolationCityPushRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEcoMycarViolationInfoPushRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayEcoWelfareCodeSyncRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayExscUserCurrentsignGetRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayExscUserFirstfundinpourGetRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayExscUserFirstsignGetRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayFlashsalesStockSyncUpdateRequest.php:
+  136  	}
+  137  
+  138:   public function setNeedEncrypt($needEncrypt)
+  139    {
+  140  
+  ...
+  143    }
+  144  
+  145:   public function getNeedEncrypt()
+  146    {
+  147      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayFundAuthOperationCancelRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayFundAuthOperationDetailQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayFundAuthOrderFreezeRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayFundAuthOrderUnfreezeRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayFundTransOrderQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayFundTransToaccountTransferRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayInsAutoCarSaveRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayInsSceneApplicationIssueConfirmRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayInsSceneCouponReceiveRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayInsSceneCouponSendRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMarketingCampaignActivityOfflineCreateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMarketingCampaignActivityOfflineTriggerRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMarketingCampaignCashCreateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMarketingCampaignCashDetailQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMarketingCampaignCashListQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMarketingCampaignCashStatusModifyRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMarketingCampaignCashTriggerRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMarketingCampaignCertCreateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMarketingCampaignDiscountBudgetAppendRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMarketingCampaignDiscountBudgetCreateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMarketingCampaignDiscountBudgetQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMarketingCampaignDiscountOperateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMarketingCampaignDiscountQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMarketingCampaignDiscountStatusUpdateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMarketingCampaignDiscountWhitelistQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMarketingCampaignDiscountWhitelistUpdateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMarketingCampaignDrawcampCreateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMarketingCampaignDrawcampQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMarketingCampaignDrawcampStatusUpdateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMarketingCampaignDrawcampTriggerRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMarketingCampaignDrawcampUpdateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMarketingCampaignDrawcampWhitelistCreateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMarketingCampaignPrizeAmountQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMarketingCardActivateformQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMarketingCardActivateurlApplyRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMarketingCardConsumeSyncRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMarketingCardDeleteRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMarketingCardOpenRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMarketingCardQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMarketingCardTemplateCreateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMarketingCardTemplateModifyRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMarketingCardTemplateQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMarketingCardUpdateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMarketingCashvoucherTemplateCreateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMarketingCashvoucherTemplateModifyRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMarketingCdpAdvertiseCreateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMarketingCdpAdvertiseModifyRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMarketingCdpAdvertiseOperateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMarketingCdpAdvertiseQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMarketingCdpAdvertiseReportQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMarketingCdpRecommendQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMarketingToolFengdieActivityCreateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMarketingToolFengdieActivityQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMarketingToolFengdieEditorQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMarketingToolFengdieTemplateQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMarketingVoucherAuthSendRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMarketingVoucherConfirmRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMarketingVoucherListQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMarketingVoucherTemplateDeleteRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMarketingVoucherTemplatedetailQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMarketingVoucherTemplatelistQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMdataTagGetRequest.php:
+  120  	}
+  121  
+  122:   public function setNeedEncrypt($needEncrypt)
+  123    {
+  124  
+  ...
+  127    }
+  128  
+  129:   public function getNeedEncrypt()
+  130    {
+  131      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMemberCouponQuerylistRequest.php:
+  184  	}
+  185  
+  186:   public function setNeedEncrypt($needEncrypt)
+  187    {
+  188  
+  ...
+  191    }
+  192  
+  193:   public function getNeedEncrypt()
+  194    {
+  195      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMicropayOrderConfirmpayurlGetRequest.php:
+  168  	}
+  169  
+  170:   public function setNeedEncrypt($needEncrypt)
+  171    {
+  172  
+  ...
+  175    }
+  176  
+  177:   public function getNeedEncrypt()
+  178    {
+  179      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMicropayOrderDirectPayRequest.php:
+  168  	}
+  169  
+  170:   public function setNeedEncrypt($needEncrypt)
+  171    {
+  172  
+  ...
+  175    }
+  176  
+  177:   public function getNeedEncrypt()
+  178    {
+  179      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMicropayOrderFreezepayurlGetRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMicropayOrderFreezeRequest.php:
+  168  	}
+  169  
+  170:   public function setNeedEncrypt($needEncrypt)
+  171    {
+  172  
+  ...
+  175    }
+  176  
+  177:   public function getNeedEncrypt()
+  178    {
+  179      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMicropayOrderGetRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMicropayOrderUnfreezeRequest.php:
+  120  	}
+  121  
+  122:   public function setNeedEncrypt($needEncrypt)
+  123    {
+  124  
+  ...
+  127    }
+  128  
+  129:   public function getNeedEncrypt()
+  130    {
+  131      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMobileBeaconDeviceAddRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMobileBeaconDeviceDeleteRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMobileBeaconDeviceModifyRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMobileBeaconDeviceQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMobileBeaconMessageSendRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMobileBksigntokenVerifyRequest.php:
+  136  	}
+  137  
+  138:   public function setNeedEncrypt($needEncrypt)
+  139    {
+  140  
+  ...
+  143    }
+  144  
+  145:   public function getNeedEncrypt()
+  146    {
+  147      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMobileCodeCreateRequest.php:
+  233  	}
+  234  
+  235:   public function setNeedEncrypt($needEncrypt)
+  236    {
+  237  
+  ...
+  240    }
+  241  
+  242:   public function getNeedEncrypt()
+  243    {
+  244      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMobileCodeQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMobilePublicAccountAddRequest.php:
+  184  	}
+  185  
+  186:   public function setNeedEncrypt($needEncrypt)
+  187    {
+  188  
+  ...
+  191    }
+  192  
+  193:   public function getNeedEncrypt()
+  194    {
+  195      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMobilePublicAccountDeleteRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMobilePublicAccountQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMobilePublicAccountResetRequest.php:
+  184  	}
+  185  
+  186:   public function setNeedEncrypt($needEncrypt)
+  187    {
+  188  
+  ...
+  191    }
+  192  
+  193:   public function getNeedEncrypt()
+  194    {
+  195      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMobilePublicAppinfoUpdateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMobilePublicContactFollowListRequest.php:
+   89  	}
+   90  
+   91:   public function setNeedEncrypt($needEncrypt)
+   92    {
+   93  
+   ..
+   96    }
+   97  
+   98:   public function getNeedEncrypt()
+   99    {
+  100      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMobilePublicFollowListRequest.php:
+  105  	}
+  106  
+  107:   public function setNeedEncrypt($needEncrypt)
+  108    {
+  109  
+  ...
+  112    }
+  113  
+  114:   public function getNeedEncrypt()
+  115    {
+  116      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMobilePublicGisGetRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMobilePublicInfoModifyRequest.php:
+  216  	}
+  217  
+  218:   public function setNeedEncrypt($needEncrypt)
+  219    {
+  220  
+  ...
+  223    }
+  224  
+  225:   public function getNeedEncrypt()
+  226    {
+  227      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMobilePublicInfoQueryRequest.php:
+   89  	}
+   90  
+   91:   public function setNeedEncrypt($needEncrypt)
+   92    {
+   93  
+   ..
+   96    }
+   97  
+   98:   public function getNeedEncrypt()
+   99    {
+  100      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMobilePublicLabelAddRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMobilePublicLabelDeleteRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMobilePublicLabelQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMobilePublicLabelUpdateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMobilePublicLabelUserAddRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMobilePublicLabelUserDeleteRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMobilePublicLabelUserQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMobilePublicMenuAddRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMobilePublicMenuDeleteRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMobilePublicMenuGetRequest.php:
+   89  	}
+   90  
+   91:   public function setNeedEncrypt($needEncrypt)
+   92    {
+   93  
+   ..
+   96    }
+   97  
+   98:   public function getNeedEncrypt()
+   99    {
+  100      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMobilePublicMenuQueryRequest.php:
+   89  	}
+   90  
+   91:   public function setNeedEncrypt($needEncrypt)
+   92    {
+   93  
+   ..
+   96    }
+   97  
+   98:   public function getNeedEncrypt()
+   99    {
+  100      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMobilePublicMenuUpdateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMobilePublicMenuUserQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMobilePublicMenuUserUpdateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMobilePublicMessagebatchPushRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMobilePublicMessageCustomSendRequest.php:
+  105  	}
+  106  
+  107:   public function setNeedEncrypt($needEncrypt)
+  108    {
+  109  
+  ...
+  112    }
+  113  
+  114:   public function getNeedEncrypt()
+  115    {
+  116      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMobilePublicMessageLabelSendRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMobilePublicMessagePushRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMobilePublicMessageSingleSendRequest.php:
+  105  	}
+  106  
+  107:   public function setNeedEncrypt($needEncrypt)
+  108    {
+  109  
+  ...
+  112    }
+  113  
+  114:   public function getNeedEncrypt()
+  115    {
+  116      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMobilePublicMessagespecifyPushRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMobilePublicMessageTotalSendRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMobilePublicMockListsmlistApiRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMobilePublicQrcodeCreateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMobilePublicShortlinkCreateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMobilePublicStdMockListsmlistApiRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMobilePublicTemplateMessageDeleteRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMobilePublicTemplateMessageGetRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMobilePublicTemplateMessageModifyRequest.php:
+  120  	}
+  121  
+  122:   public function setNeedEncrypt($needEncrypt)
+  123    {
+  124  
+  ...
+  127    }
+  128  
+  129:   public function getNeedEncrypt()
+  130    {
+  131      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMobilePublicTemplateMessageQueryRequest.php:
+  120  	}
+  121  
+  122:   public function setNeedEncrypt($needEncrypt)
+  123    {
+  124  
+  ...
+  127    }
+  128  
+  129:   public function getNeedEncrypt()
+  130    {
+  131      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMobileRecommendGetRequest.php:
+  168  	}
+  169  
+  170:   public function setNeedEncrypt($needEncrypt)
+  171    {
+  172  
+  ...
+  175    }
+  176  
+  177:   public function getNeedEncrypt()
+  178    {
+  179      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMobileShakeUserQueryRequest.php:
+  123  	}
+  124  
+  125:   public function setNeedEncrypt($needEncrypt)
+  126    {
+  127  
+  ...
+  130    }
+  131  
+  132:   public function getNeedEncrypt()
+  133    {
+  134      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMobileStdPublicAccountQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMobileStdPublicExpressUserQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMobileStdPublicFollowListRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMobileStdPublicMenuQueryRequest.php:
+   89  	}
+   90  
+   91:   public function setNeedEncrypt($needEncrypt)
+   92    {
+   93  
+   ..
+   96    }
+   97  
+   98:   public function getNeedEncrypt()
+   99    {
+  100      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMobileStdPublicMessageCustomSendRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMpointprodBenefitDetailGetRequest.php:
+  108  	}
+  109  
+  110:   public function setNeedEncrypt($needEncrypt)
+  111    {
+  112  
+  ...
+  115    }
+  116  
+  117:   public function getNeedEncrypt()
+  118    {
+  119      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMsaasMediarecogVoiceMediaaudioUploadRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayMsaasPromotionCpainfoCreateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOfflineMarketApplyorderBatchqueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOfflineMarketingVoucherCodeUploadRequest.php:
+  136  	}
+  137  
+  138:   public function setNeedEncrypt($needEncrypt)
+  139    {
+  140  
+  ...
+  143    }
+  144  
+  145:   public function getNeedEncrypt()
+  146    {
+  147      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOfflineMarketingVoucherCreateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOfflineMarketingVoucherModifyRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOfflineMarketingVoucherOfflineRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOfflineMarketingVoucherStatusQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOfflineMarketingVoucherUseRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOfflineMarketItemCreateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOfflineMarketItemModifyRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOfflineMarketItemStateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOfflineMarketLeadsBatchqueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOfflineMarketLeadsQrcodeQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOfflineMarketMcommentQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOfflineMarketProductBatchqueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOfflineMarketProductQuerydetailRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOfflineMarketReporterrorCreateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOfflineMarketReportGetRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOfflineMarketShopApplyorderCancelRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOfflineMarketShopBatchqueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOfflineMarketShopCategoryQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOfflineMarketShopCreateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOfflineMarketShopDiscountQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOfflineMarketShopModifyRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOfflineMarketShopPublicBindRequest.php:
+  120  	}
+  121  
+  122:   public function setNeedEncrypt($needEncrypt)
+  123    {
+  124  
+  ...
+  127    }
+  128  
+  129:   public function getNeedEncrypt()
+  130    {
+  131      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOfflineMarketShopPublicUnbindRequest.php:
+  120  	}
+  121  
+  122:   public function setNeedEncrypt($needEncrypt)
+  123    {
+  124  
+  ...
+  127    }
+  128  
+  129:   public function getNeedEncrypt()
+  130    {
+  131      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOfflineMarketShopQuerydetailRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOfflineMarketShopSummaryBatchqueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOfflineMaterialImageDownloadRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOfflineMaterialImageModifyRequest.php:
+   89  	}
+   90  
+   91:   public function setNeedEncrypt($needEncrypt)
+   92    {
+   93  
+   ..
+   96    }
+   97  
+   98:   public function getNeedEncrypt()
+   99    {
+  100      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOfflineMaterialImageQueryRequest.php:
+   89  	}
+   90  
+   91:   public function setNeedEncrypt($needEncrypt)
+   92    {
+   93  
+   ..
+   96    }
+   97  
+   98:   public function getNeedEncrypt()
+   99    {
+  100      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOfflineMaterialImageUploadRequest.php:
+  152  	}
+  153  
+  154:   public function setNeedEncrypt($needEncrypt)
+  155    {
+  156  
+  ...
+  159    }
+  160  
+  161:   public function getNeedEncrypt()
+  162    {
+  163      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOfflineProviderDishQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOfflineProviderEquipmentAuthQuerybypageRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOfflineProviderEquipmentAuthRemoveRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOfflineProviderMonitorLogSyncRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOfflineProviderShopactionRecordRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOfflineProviderStaffUpdateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOfflineProviderUseractionRecordRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOpenAppCodetesttestRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOpenAppPackagetestRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOpenAuthIndustryPlatformCreateTokenRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOpenAuthTokenAppQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOpenAuthTokenAppRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOpenPublicAccountCreateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOpenPublicAccountDeleteRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOpenPublicAccountQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOpenPublicAccountResetRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOpenPublicContactFollowBatchqueryRequest.php:
+   89  	}
+   90  
+   91:   public function setNeedEncrypt($needEncrypt)
+   92    {
+   93  
+   ..
+   96    }
+   97  
+   98:   public function getNeedEncrypt()
+   99    {
+  100      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOpenPublicFollowBatchqueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOpenPublicGisQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOpenPublicInfoModifyRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOpenPublicInfoQueryRequest.php:
+   89  	}
+   90  
+   91:   public function setNeedEncrypt($needEncrypt)
+   92    {
+   93  
+   ..
+   96    }
+   97  
+   98:   public function getNeedEncrypt()
+   99    {
+  100      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOpenPublicLabelCreateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOpenPublicLabelDeleteRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOpenPublicLabelModifyRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOpenPublicLabelQueryRequest.php:
+   89  	}
+   90  
+   91:   public function setNeedEncrypt($needEncrypt)
+   92    {
+   93  
+   ..
+   96    }
+   97  
+   98:   public function getNeedEncrypt()
+   99    {
+  100      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOpenPublicLabelUserCreateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOpenPublicLabelUserDeleteRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOpenPublicLabelUserQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOpenPublicLifeAccountCreateRequest.php:
+  233  	}
+  234  
+  235:   public function setNeedEncrypt($needEncrypt)
+  236    {
+  237  
+  ...
+  240    }
+  241  
+  242:   public function getNeedEncrypt()
+  243    {
+  244      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOpenPublicLifeMsgRecallRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOpenPublicLifeMsgSendRequest.php:
+  323  	}
+  324  
+  325:   public function setNeedEncrypt($needEncrypt)
+  326    {
+  327  
+  ...
+  330    }
+  331  
+  332:   public function getNeedEncrypt()
+  333    {
+  334      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOpenPublicMenuCreateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOpenPublicMenuModifyRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOpenPublicMenuQueryRequest.php:
+   89  	}
+   90  
+   91:   public function setNeedEncrypt($needEncrypt)
+   92    {
+   93  
+   ..
+   96    }
+   97  
+   98:   public function getNeedEncrypt()
+   99    {
+  100      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOpenPublicMessageCustomSendRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOpenPublicMessageLabelSendRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOpenPublicMessageSingleSendRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOpenPublicMessageTotalSendRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOpenPublicMultimediaDownloadProxyRequest.php:
+   89  	}
+   90  
+   91:   public function setNeedEncrypt($needEncrypt)
+   92    {
+   93  
+   ..
+   96    }
+   97  
+   98:   public function getNeedEncrypt()
+   99    {
+  100      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOpenPublicPartnerMenuOperateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOpenPublicPartnerMenuQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOpenPublicPartnerSubscribeSyncRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOpenPublicQrcodeCreateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOpenPublicShortlinkCreateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOpenPublicTemplateMessageGetRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOpenPublicTemplateMessageIndustryModifyRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOpenPublicThirdCustomerServiceRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOpenServicemarketCommodityShopOfflineRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOpenServicemarketCommodityShopOnlineRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOpenServicemarketOrderAcceptRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOpenServicemarketOrderItemCancelRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOpenServicemarketOrderItemCompleteRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOpenServicemarketOrderItemConfirmRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOpenServicemarketOrderNotifyRequest.php:
+   89  	}
+   90  
+   91:   public function setNeedEncrypt($needEncrypt)
+   92    {
+   93  
+   ..
+   96    }
+   97  
+   98:   public function getNeedEncrypt()
+   99    {
+  100      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOpenServicemarketOrderQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOpenServicemarketOrderRejectRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayOperatorMobileBindRequest.php:
+  188  	}
+  189  
+  190:   public function setNeedEncrypt($needEncrypt)
+  191    {
+  192  
+  ...
+  195    }
+  196  
+  197:   public function getNeedEncrypt()
+  198    {
+  199      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayPassCodeAddRequest.php:
+  156  	}
+  157  
+  158:   public function setNeedEncrypt($needEncrypt)
+  159    {
+  160  
+  ...
+  163    }
+  164  
+  165:   public function getNeedEncrypt()
+  166    {
+  167      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayPassCodeVerifyRequest.php:
+  156  	}
+  157  
+  158:   public function setNeedEncrypt($needEncrypt)
+  159    {
+  160  
+  ...
+  163    }
+  164  
+  165:   public function getNeedEncrypt()
+  166    {
+  167      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayPassFileAddRequest.php:
+  139  	}
+  140  
+  141:   public function setNeedEncrypt($needEncrypt)
+  142    {
+  143  
+  ...
+  146    }
+  147  
+  148:   public function getNeedEncrypt()
+  149    {
+  150      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayPassInstanceAddRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayPassInstanceUpdateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayPassSyncAddRequest.php:
+  152  	}
+  153  
+  154:   public function setNeedEncrypt($needEncrypt)
+  155    {
+  156  
+  ...
+  159    }
+  160  
+  161:   public function getNeedEncrypt()
+  162    {
+  163      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayPassSyncUpdateRequest.php:
+  200  	}
+  201  
+  202:   public function setNeedEncrypt($needEncrypt)
+  203    {
+  204  
+  ...
+  207    }
+  208  
+  209:   public function getNeedEncrypt()
+  210    {
+  211      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayPassTemplateAddRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayPassTemplateUpdateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayPassTplAddRequest.php:
+  121  	}
+  122  
+  123:   public function setNeedEncrypt($needEncrypt)
+  124    {
+  125  
+  ...
+  128    }
+  129  
+  130:   public function getNeedEncrypt()
+  131    {
+  132      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayPassTplContentAddRequest.php:
+  155  	}
+  156  
+  157:   public function setNeedEncrypt($needEncrypt)
+  158    {
+  159  
+  ...
+  162    }
+  163  
+  164:   public function getNeedEncrypt()
+  165    {
+  166      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayPassTplContentUpdateRequest.php:
+  184  	}
+  185  
+  186:   public function setNeedEncrypt($needEncrypt)
+  187    {
+  188  
+  ...
+  191    }
+  192  
+  193:   public function getNeedEncrypt()
+  194    {
+  195      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayPassTplUpdateRequest.php:
+  120  	}
+  121  
+  122:   public function setNeedEncrypt($needEncrypt)
+  123    {
+  124  
+  ...
+  127    }
+  128  
+  129:   public function getNeedEncrypt()
+  130    {
+  131      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayPassVerifyQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayPcreditHuabeiPromoQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayPcreditLoanApplyCreateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayPcreditLoanRefundCreateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayPlatformOpenidGetRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayPlatformUseridGetRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayPointBalanceGetRequest.php:
+   89  	}
+   90  
+   91:   public function setNeedEncrypt($needEncrypt)
+   92    {
+   93  
+   ..
+   96    }
+   97  
+   98:   public function getNeedEncrypt()
+   99    {
+  100      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayPointBudgetGetRequest.php:
+   89  	}
+   90  
+   91:   public function setNeedEncrypt($needEncrypt)
+   92    {
+   93  
+   ..
+   96    }
+   97  
+   98:   public function getNeedEncrypt()
+   99    {
+  100      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayPointOrderAddRequest.php:
+  184  	}
+  185  
+  186:   public function setNeedEncrypt($needEncrypt)
+  187    {
+  188  
+  ...
+  191    }
+  192  
+  193:   public function getNeedEncrypt()
+  194    {
+  195      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayPointOrderGetRequest.php:
+  136  	}
+  137  
+  138:   public function setNeedEncrypt($needEncrypt)
+  139    {
+  140  
+  ...
+  143    }
+  144  
+  145:   public function getNeedEncrypt()
+  146    {
+  147      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayPromorulecenterRuleAnalyzeRequest.php:
+  136  	}
+  137  
+  138:   public function setNeedEncrypt($needEncrypt)
+  139    {
+  140  
+  ...
+  143    }
+  144  
+  145:   public function getNeedEncrypt()
+  146    {
+  147      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipaySecurityInfoAnalysisRequest.php:
+  456  	}
+  457  
+  458:   public function setNeedEncrypt($needEncrypt)
+  459    {
+  460  
+  ...
+  463    }
+  464  
+  465:   public function getNeedEncrypt()
+  466    {
+  467      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipaySecurityProdAlipaySecurityProdTestRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipaySecurityProdAmlriskQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipaySecurityProdFacerepoAddRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipaySecurityProdFacerepoSearchRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipaySecurityProdFingerprintApplyInitializeRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipaySecurityProdFingerprintApplyRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipaySecurityProdFingerprintDeleteRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipaySecurityProdFingerprintVerifyInitializeRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipaySecurityProdFingerprintVerifyRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipaySecurityRiskDetectRequest.php:
+  984  	}
+  985  
+  986:   public function setNeedEncrypt($needEncrypt)
+  987    {
+  988  
+  ...
+  991    }
+  992  
+  993:   public function getNeedEncrypt()
+  994    {
+  995      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipaySecurityRiskHideDeviceidQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipaySecurityRiskRainscoreQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipaySystemOauthTokenRequest.php:
+  136  	}
+  137  
+  138:   public function setNeedEncrypt($needEncrypt)
+  139    {
+  140  
+  ...
+  143    }
+  144  
+  145:   public function getNeedEncrypt()
+  146    {
+  147      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayTradeAppPayRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayTradeCancelRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayTradeCloseRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayTradeCreateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayTradeCustomsDeclareRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayTradeCustomsQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayTradeFastpayRefundQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayTradeOrderSettleRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayTradePagePayRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayTradePayRequest.php:
+  105  	}
+  106  
+  107:   public function setNeedEncrypt($needEncrypt)
+  108    {
+  109  
+  ...
+  112    }
+  113  
+  114:   public function getNeedEncrypt()
+  115    {
+  116      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayTradePrecreateRequest.php:
+  105  	}
+  106  
+  107:   public function setNeedEncrypt($needEncrypt)
+  108    {
+  109  
+  ...
+  112    }
+  113  
+  114:   public function getNeedEncrypt()
+  115    {
+  116      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayTradeQueryRequest.php:
+  105  	}
+  106  
+  107:   public function setNeedEncrypt($needEncrypt)
+  108    {
+  109  
+  ...
+  112    }
+  113  
+  114:   public function getNeedEncrypt()
+  115    {
+  116      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayTradeRefundRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayTradeVendorpayDevicedataUploadRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayTradeWapPayRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayTransferThirdpartyBillCreateRequest.php:
+  287  	}
+  288  
+  289:   public function setNeedEncrypt($needEncrypt)
+  290    {
+  291  
+  ...
+  294    }
+  295  
+  296:   public function getNeedEncrypt()
+  297    {
+  298      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayTrustUserAuthSendRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayTrustUserReportGetRequest.php:
+  120  	}
+  121  
+  122:   public function setNeedEncrypt($needEncrypt)
+  123    {
+  124  
+  ...
+  127    }
+  128  
+  129:   public function getNeedEncrypt()
+  130    {
+  131      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayTrustUserRiskidentifyGetRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayTrustUserRiskSummaryGetRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayTrustUserScoreGetRequest.php:
+   89  	}
+   90  
+   91:   public function setNeedEncrypt($needEncrypt)
+   92    {
+   93  
+   ..
+   96    }
+   97  
+   98:   public function getNeedEncrypt()
+   99    {
+  100      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayTrustUserStandardVerifyGetRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayTrustUserTokenGetRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayTrustUserZminfoPairGetRequest.php:
+  136  	}
+  137  
+  138:   public function setNeedEncrypt($needEncrypt)
+  139    {
+  140  
+  ...
+  143    }
+  144  
+  145:   public function getNeedEncrypt()
+  146    {
+  147      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayUserAccountFreezeGetRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayUserAccountGetRequest.php:
+   89  	}
+   90  
+   91:   public function setNeedEncrypt($needEncrypt)
+   92    {
+   93  
+   ..
+   96    }
+   97  
+   98:   public function getNeedEncrypt()
+   99    {
+  100      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayUserAccountSearchRequest.php:
+  184  	}
+  185  
+  186:   public function setNeedEncrypt($needEncrypt)
+  187    {
+  188  
+  ...
+  191    }
+  192  
+  193:   public function getNeedEncrypt()
+  194    {
+  195      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayUserAccountUseridBatchqueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayUserContractGetRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayUserFinanceinfoShareRequest.php:
+  105  	}
+  106  
+  107:   public function setNeedEncrypt($needEncrypt)
+  108    {
+  109  
+  ...
+  112    }
+  113  
+  114:   public function getNeedEncrypt()
+  115    {
+  116      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayUserGetRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayUserInfoAuthRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayUserInfoShareRequest.php:
+   89  	}
+   90  
+   91:   public function setNeedEncrypt($needEncrypt)
+   92    {
+   93  
+   ..
+   96    }
+   97  
+   98:   public function getNeedEncrypt()
+   99    {
+  100      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayUserTestRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayUserTradeSearchRequest.php:
+  232  	}
+  233  
+  234:   public function setNeedEncrypt($needEncrypt)
+  235    {
+  236  
+  ...
+  239    }
+  240  
+  241:   public function getNeedEncrypt()
+  242    {
+  243      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayUserUserinfoShareRequest.php:
+   89  	}
+   90  
+   91:   public function setNeedEncrypt($needEncrypt)
+   92    {
+   93  
+   ..
+   96    }
+   97  
+   98:   public function getNeedEncrypt()
+   99    {
+  100      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayZdataassetsEasyserviceRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayZdataassetsFcdatalabZdatamergetaskRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayZdataassetsMetadataRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayZdatafrontCommonQueryRequest.php:
+  186  	}
+  187  
+  188:   public function setNeedEncrypt($needEncrypt)
+  189    {
+  190  
+  ...
+  193    }
+  194  
+  195:   public function getNeedEncrypt()
+  196    {
+  197      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayZdatafrontDatatransferedFileuploadRequest.php:
+  216  	}
+  217  
+  218:   public function setNeedEncrypt($needEncrypt)
+  219    {
+  220  
+  ...
+  223    }
+  224  
+  225:   public function getNeedEncrypt()
+  226    {
+  227      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayZdatafrontDatatransferedSendRequest.php:
+  136  	}
+  137  
+  138:   public function setNeedEncrypt($needEncrypt)
+  139    {
+  140  
+  ...
+  143    }
+  144  
+  145:   public function getNeedEncrypt()
+  146    {
+  147      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayZdataserviceUnidataQueryRequest.php:
+  120  	}
+  121  
+  122:   public function setNeedEncrypt($needEncrypt)
+  123    {
+  124  
+  ...
+  127    }
+  128  
+  129:   public function getNeedEncrypt()
+  130    {
+  131      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AlipayZmscoreZrankGetRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AntMerchantExpandEnterpriseApplyRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AntMerchantExpandImageUploadRequest.php:
+  120  	}
+  121  
+  122:   public function setNeedEncrypt($needEncrypt)
+  123    {
+  124  
+  ...
+  127    }
+  128  
+  129:   public function getNeedEncrypt()
+  130    {
+  131      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AntMerchantExpandMapplyorderQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\AntMerchantExpandPersonalApplyRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiContentCommentDataBatchqueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiContentCommentReplyCreateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiCraftsmanDataProviderBatchqueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiCraftsmanDataProviderCreateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiCraftsmanDataProviderModifyRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiCraftsmanDataWorkBatchqueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiCraftsmanDataWorkCreateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiCraftsmanDataWorkDeleteRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiCraftsmanDataWorkModifyRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiItemBatchqueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiItemCreateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiItemExtitemBatchqueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiItemExtitemBrandQueryRequest.php:
+   89  	}
+   90  
+   91:   public function setNeedEncrypt($needEncrypt)
+   92    {
+   93  
+   ..
+   96    }
+   97  
+   98:   public function getNeedEncrypt()
+   99    {
+  100      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiItemExtitemCategoryQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiItemExtitemCreateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiItemExtitemExistedQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiItemExtitemQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiItemExtitemUpdateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiItemModifyRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiItemStateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiMarketingCampaignActivityBatchqueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiMarketingCampaignActivityCreateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiMarketingCampaignActivityModifyRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiMarketingCampaignActivityOfflineRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiMarketingCampaignActivityQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiMarketingCampaignCrowdBatchqueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiMarketingCampaignCrowdCountRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiMarketingCampaignCrowdCreateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiMarketingCampaignCrowdDeleteRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiMarketingCampaignCrowdDetailQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiMarketingCampaignCrowdModifyRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiMarketingCampaignRecruitApplyQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiMarketingCampaignRecruitShopQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiMarketingCampaignTagsQueryRequest.php:
+   89  	}
+   90  
+   91:   public function setNeedEncrypt($needEncrypt)
+   92    {
+   93  
+   ..
+   96    }
+   97  
+   98:   public function getNeedEncrypt()
+   99    {
+  100      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiMarketingDataActivityBillDownloadRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiMarketingDataActivityReportQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiMarketingDataAlisisReportBatchqueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiMarketingDataAlisisReportQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiMarketingDataCustomreportBatchqueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiMarketingDataCustomreportDeleteRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiMarketingDataCustomreportDetailQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiMarketingDataCustomreportQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiMarketingDataCustomreportSaveRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiMarketingDataDishdiagnoseBatchqueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiMarketingDataDishdiagnosetypeBatchqueryRequest.php:
+   89  	}
+   90  
+   91:   public function setNeedEncrypt($needEncrypt)
+   92    {
+   93  
+   ..
+   96    }
+   97  
+   98:   public function getNeedEncrypt()
+   99    {
+  100      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiMarketingDataIndicatorQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiMarketingDataMemberReportQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiMarketingDataMessageDeliverRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiMarketingDataRetailDmQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiMarketingDataSmartactivityConfigRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiMarketingDataSmartactivityForecastRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiMarketingDataSmartmanagementDiagnoseRequest.php:
+   89  	}
+   90  
+   91:   public function setNeedEncrypt($needEncrypt)
+   92    {
+   93  
+   ..
+   96    }
+   97  
+   98:   public function getNeedEncrypt()
+   99    {
+  100      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiMarketingDataTradeHabbitQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiMarketingToolPointsQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiMarketingToolPointsUpdateRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiMarketingToolPrizesendAuthRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiMemberBrandownerNameQueryRequest.php:
+   89  	}
+   90  
+   91:   public function setNeedEncrypt($needEncrypt)
+   92    {
+   93  
+   ..
+   96    }
+   97  
+   98:   public function getNeedEncrypt()
+   99    {
+  100      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiMemberDataOauthQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiMemberRetailerQueryRequest.php:
+   89  	}
+   90  
+   91:   public function setNeedEncrypt($needEncrypt)
+   92    {
+   93  
+   ..
+   96    }
+   97  
+   98:   public function getNeedEncrypt()
+   99    {
+  100      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiQualityTestCloudacptActivityQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiQualityTestCloudacptBatchQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiQualityTestCloudacptCheckresultSubmitRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiQualityTestCloudacptItemQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiTradeItemBuyRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\KoubeiTradeOrderQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\MonitorHeartbeatSynRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\MybankFinanceYulibaoAccountQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\MybankFinanceYulibaoCapitalPurchaseRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\MybankFinanceYulibaoCapitalRansomRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\MybankFinanceYulibaoPriceQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\MybankFinanceYulibaoTransHistoryQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\SsdataDataserviceRiskAlixiaohaoQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\SsdataDataserviceRiskRainscoreQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\ZhimaAuthInfoAuthqueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\ZhimaCreditAntifraudVerifyRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\ZhimaCreditScoreBriefGetRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\ZhimaCreditWatchlistBriefGetRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\ZhimaCustomerCertificationCertifyRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\ZhimaCustomerCertificationInitializeRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\ZhimaCustomerCertificationQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\ZhimaDataBatchFeedbackRequest.php:
+  216  	}
+  217  
+  218:   public function setNeedEncrypt($needEncrypt)
+  219    {
+  220  
+  ...
+  223    }
+  224  
+  225:   public function getNeedEncrypt()
+  226    {
+  227      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\ZhimaDataFeedbackurlQueryRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\aop\request\ZhimaMerchantTestPracticeRequest.php:
+  104  	}
+  105  
+  106:   public function setNeedEncrypt($needEncrypt)
+  107    {
+  108  
+  ...
+  111    }
+  112  
+  113:   public function getNeedEncrypt()
+  114    {
+  115      return $this->needEncrypt;
+
+D:\www\blog\app\alipay\lotusphp_runtime\Cookie\Cookie.php:
+   51  	 * @return string 
+   52  	 */
+   53: 	protected function encrypt($plainText)
+   54  	{
+   55  		$key = $this->secretKey;
+   56  		$ivSize = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB);
+   57  		$iv = mcrypt_create_iv($ivSize, MCRYPT_RAND);
+   58: 		$encryptText = mcrypt_encrypt(MCRYPT_RIJNDAEL_256, $key, $plainText, MCRYPT_MODE_ECB, $iv);
+   59  		return trim(base64_encode($encryptText));
+   60  	}
+   ..
+  124  			foreach($value as $k => $v)
+  125  			{
+  126: 				$v = $this->encrypt($v);
+  127  				setcookie($name . '[' . $k . ']', $v, $expire, $path, $domain, $secure);
+  128  			}
+  ...
+  130  		else
+  131  		{
+  132: 			$value = $this->encrypt($value);
+  133  			setcookie($name, $value, $expire, $path, $domain, $secure);
+  134  		}
+
+1035 matches across 513 files
